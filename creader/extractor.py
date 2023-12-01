@@ -28,11 +28,21 @@ class Extraction(BaseOutputParser[str]):
 
     def parse(self, text: str) -> str:
         """ """
+
+        # define max acceptable size for answer
+        max_size = 10
+
+        # preprocess text
         text = text.split("\n")[0].replace(" ", "").replace(".", "")
         text_processed = text.split("=")
         if len(text_processed) > 1:
-            print(text_processed)
             text = text_processed[1]
+
+        # control size of the answer, if its too big, just inform that the information is detected
+        if len(text) > max_size:
+            text = "Detected"
+
+        # return text
         return text
 
 
@@ -112,10 +122,11 @@ def extract(text_list, target_list, model_path):
 if __name__ == "__main__":
 
     # parameters
-    model_path = "/home/bran/Workspace/misc/llama/models/llama-2-13b-chat.Q5_K_M.gguf"
+    model_path = "/home/bran/Workspace/misc/llama/models/mistral-7b-v0.1.Q5_K_M.gguf"
     text_list = [
         "Jimmy est un perroquet qui mesure 65 cm et il pèse environ 250kg",
         "Robert est un saint-bernard qui as une taille de 1 mètre et un poid de 25 kilos",
+        "Alphonse est une anguille verte agé de 25 ans et qui mesure 63cm",
     ]
     # target = "Color"
     #
